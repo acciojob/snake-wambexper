@@ -1,54 +1,21 @@
-const gameContainer = document.getElementById('gameContainer');
-const gridSize = 40; // The number of pixels in each row and column
-const snake = [{ row: 20, col: 1 }]; // Initial position of the snake
-let food = { row: Math.floor(Math.random() * gridSize), col: Math.floor(Math.random() * gridSize) }; // Initial position of the food
-let direction = 'right'; // Initial direction of the snake
-let score = 0;
 
-function update() {
-  // Update the snake's position based on the current direction
-  const head = snake[0];
+function calculateMinCost() {
+  //your code here
+  let string = document.getElementById("rope-lengths").value;
 
-  // Add code to move the snake according to the direction
+	let arr = string.split(",");
+	let finalValue =0;
+	while(arr.length > 1){
+		arr.sort((a,b) =>{return(a-b)});
+		let value = parseInt (arr.shift());    // converts to int and holds first element in the array.
+		let value1 = parseInt(arr.shift());    // hold 2nd element.
+		let mainValue = value + value1;
+		finalValue = finalValue + mainValue;
+		arr.push(mainValue);
 
-  // Check if the snake has eaten the food
-  if (head.row === food.row && head.col === food.col) {
-    // Generate new food
-    food = { row: Math.floor(Math.random() * gridSize), col: Math.floor(Math.random() * gridSize) };
-    score++;
-    document.getElementById('pointsEarned').innerText = score;
-  } else {
-    // Remove the tail of the snake
-    snake.pop();
-  }
+	}
+  let result = document.getElementById("result");
+	result.innerText = finalValue;
+	return finalValue;
 
-  // Update the game display
-  draw();
 }
-
-function draw() {
-  // Clear the game container
-  gameContainer.innerHTML = '';
-
-  // Draw the snake
-  snake.forEach(segment => {
-    const snakePixel = document.createElement('div');
-    snakePixel.classList.add('snakeBodyPixel');
-    snakePixel.style.gridRowStart = segment.row;
-    snakePixel.style.gridColumnStart = segment.col;
-    gameContainer.appendChild(snakePixel);
-  });
-
-  // Draw the food
-  const foodPixel = document.createElement('div');
-  foodPixel.classList.add('food');
-  foodPixel.style.gridRowStart = food.row;
-  foodPixel.style.gridColumnStart = food.col;
-  gameContainer.appendChild(foodPixel);
-}
-
-setInterval(() => {
-  update();
-}, 100); // Update the game every 100ms
-
-
